@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useTransition } from "react";
 import { CardWrapper } from "./card-wrapper";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,8 +18,12 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import FormError from "../form-error";
 import FormSuccess from "../form-success";
+import { login } from "@/actions/login";
 
 export function LoginForm() {
+    const [error, setError] = useState<string | undefined>("");
+    const [success, setSuccess] = useState<string | undefined>("");
+    const [isPending, startTransition] = useTransition();
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
         defaultValues: {
@@ -29,7 +33,14 @@ export function LoginForm() {
     });
 
     const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-        console.log(values);
+        setError("");
+        setSuccess("");
+        startTransition(() => {
+            login(values).then((data) => {
+                setError(data.error);
+                setSuccess(data.success);
+            });
+        });
     };
     return (
         <CardWrapper
@@ -54,6 +65,7 @@ export function LoginForm() {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            disabled={isPending}
                                             placeholder="john.doe@example.com"
                                             type="email"
                                         />
@@ -72,6 +84,7 @@ export function LoginForm() {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            disabled={isPending}
                                             type="password"
                                             placeholder="*******"
                                         />
@@ -81,8 +94,8 @@ export function LoginForm() {
                             )}
                         />
                     </div>
-                    <FormError message="Invalid Credential" />
-                    <FormSuccess message="Email Sent" />
+                    <FormError message={error} />
+                    <FormSuccess message={success} />
                     <Button className="w-full" type="submit">
                         Login
                     </Button>
