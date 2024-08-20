@@ -3,7 +3,7 @@
  * These routes do not require the user to login
  * @type {string[]}
  */
-export const PublicRoutes = ["/"];
+export const publicRoutes = ["/"];
 
 /**
  * An array of routes for authentication
@@ -19,3 +19,5 @@ export const authRoutes = ["/auth/login", "/auth/register"];
  */
 
 export const apiAuthPrefix = "/api/auth";
+
+export const DEFAULT_LOGIN_REDIRECT = "/settings";
