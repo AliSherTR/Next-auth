@@ -44,8 +44,8 @@ export function LoginForm() {
         setSuccess("");
         startTransition(() => {
             login(values).then((data) => {
-                setError(data.error);
-                setSuccess(data.success);
+                setError(data?.error);
+                setSuccess(data?.success);
             });
         });
     };
@@ -101,13 +101,15 @@ export function LoginForm() {
                             )}
                         />
                     </div>
-                    <Link href="/auth/reset">Forgot Your password?</Link>
                     <Button
                         size={"sm"}
                         variant={"link"}
                         className="font-normal px-0"
                         asChild
-                    ></Button>
+                    >
+                        <Link href="/auth/reset">Forgot Your password? </Link>
+                    </Button>
+
                     <FormError message={error || errorUrl} />
                     <FormSuccess message={success} />
                     <Button className="w-full" type="submit">

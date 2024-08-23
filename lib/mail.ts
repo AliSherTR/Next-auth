@@ -22,7 +22,7 @@ export const sendPasswordResetEmail = async ({
     email,
     token,
 }: passwordResetParams) => {
-    const passwordResetUrl = `http://localhost:3000/auth/reset?token=${token}`;
+    const passwordResetUrl = `http://localhost:3000/auth/new-password?token=${token}`;
 
     await resend.emails.send({
         from: "onboarding@resend.dev",
