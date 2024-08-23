@@ -8,7 +8,26 @@ export const sendVerificationEmail = async (email: string, token: string) => {
     await resend.emails.send({
         from: "onboarding@resend.dev",
         to: email,
-        subject: "Reset your password",
+        subject: "Verify your account",
         html: `<p>Click <a href="${emailUrl}">here</a> to verify.</p>`,
+    });
+};
+
+interface passwordResetParams {
+    email: string;
+    token: string;
+}
+
+export const sendPasswordResetEmail = async ({
+    email,
+    token,
+}: passwordResetParams) => {
+    const passwordResetUrl = `http://localhost:3000/auth/reset?token=${token}`;
+
+    await resend.emails.send({
+        from: "onboarding@resend.dev",
+        to: email,
+        subject: "Reset your password",
+        html: `<p>Click <a href="${passwordResetUrl}">here</a> to reset your password</p>`,
     });
 };
