@@ -20,6 +20,7 @@ import FormError from "../form-error";
 import FormSuccess from "../form-success";
 import { login } from "@/actions/login";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 export function LoginForm() {
     const urlParams = useSearchParams();
@@ -100,6 +101,13 @@ export function LoginForm() {
                             )}
                         />
                     </div>
+                    <Link href="/auth/reset">Forgot Your password?</Link>
+                    <Button
+                        size={"sm"}
+                        variant={"link"}
+                        className="font-normal px-0"
+                        asChild
+                    ></Button>
                     <FormError message={error || errorUrl} />
                     <FormSuccess message={success} />
                     <Button className="w-full" type="submit">
